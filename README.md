@@ -16,4 +16,6 @@
 
 ## Features
 
--   TODO
+-  Visualize species' ranges at multiple spatial scales
+-  Characterize leading edges, trailing edges, and core distributions from a species' range
+-  Identify the ecosystem function, traits, genetic diversity, and evolutionary potential of populations across a species' range
