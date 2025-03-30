@@ -1,3 +1,3 @@
-# ipyleaflet_mapping module
+# folium_mapping module
 
 ::: biospat.foliummap
