@@ -1,4 +1,4 @@
-"""Main module."""
+"""This module provides a custom Map class that extends ipyleaflet.Map"""
 
 import os
 import ipyleaflet
