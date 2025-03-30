@@ -1,2 +1,6 @@
+folium
+geopandas
+ipyleaflet
 numpy
 pytest
+requests
