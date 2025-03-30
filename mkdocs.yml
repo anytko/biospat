@@ -81,6 +81,9 @@ nav:
     - Report Issues: https://github.com/anytko/biospat/issues
     - Examples:
         - examples/intro.ipynb
+        - examples/mapping.ipynb
     - API Reference:
           - biospat module: biospat.md
           - common module: common.md
+          - ipyleaflet mapping module: mapping.md
+          - folium mapping module: foliummap.md

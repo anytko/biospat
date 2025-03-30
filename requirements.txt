@@ -1,2 +1,7 @@
+geopandas
+ipyleaflet
 numpy
 pytest
+requests
+shutil
+tempfile
