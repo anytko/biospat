@@ -31,6 +31,38 @@ class Map(folium.Map):
         """
         super().__init__(location=center, zoom_start=zoom, tiles=tiles, **kwargs)
 
+    def add_basemap(self, basemap):
+        """Add a basemap to the map using folium's TileLayer.
+
+        Args:
+            basemap (str): The name of the basemap to add.
+        """
+        # Folium built-in tile layers
+        builtin_tiles = [
+            "OpenStreetMap",
+            "OpenTopoMap",
+            "Esri.WorldImagery",
+            "Esri.WorldTerrain",
+            "CartoDB Positron",
+            "CartoDB Dark_Matter",
+        ]
+
+        if basemap in builtin_tiles:
+            folium.TileLayer(basemap, name=basemap).add_to(self)
+
+        else:
+            custom_tiles = {
+                "OpenTopoMap": "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+                "Esri.WorldImagery": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+            }
+
+            if basemap in custom_tiles:
+                folium.TileLayer(
+                    tiles=custom_tiles[basemap], attr="Custom Attribution", name=basemap
+                ).add_to(self)
+            else:
+                raise ValueError(f"Basemap '{basemap}' is not available.")
+
     def add_geojson(
         self,
         data,
