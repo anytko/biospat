@@ -1250,6 +1250,8 @@ Map            (<span title="folium.folium.Map">Map</span>)
         <span class="n">colormap_right</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">opacity_left</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
         <span class="n">opacity_right</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">indexes_left</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># Default to first band (1)</span>
+        <span class="n">indexes_right</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># Default to first band (1)</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1264,6 +1266,8 @@ Map            (<span title="folium.folium.Map">Map</span>)
 <span class="sd">            colormap_right (str, optional): Colormap for the right raster. Defaults to None.</span>
 <span class="sd">            opacity_left (float, optional): Opacity of the left raster. Defaults to 1.0.</span>
 <span class="sd">            opacity_right (float, optional): Opacity of the right raster. Defaults to 1.0.</span>
+<span class="sd">            indexes_left (int, optional): The band number (index) to display for the left raster. Defaults to 1.</span>
+<span class="sd">            indexes_right (int, optional): The band number (index) to display for the right raster. Defaults to 1.</span>
 <span class="sd">            **kwargs: Additional arguments for the tile layers.</span>
 
 <span class="sd">        Returns:</span>
@@ -1275,6 +1279,7 @@ Map            (<span title="folium.folium.Map">Map</span>)
             <span class="n">client_left</span> <span class="o">=</span> <span class="n">TileClient</span><span class="p">(</span><span class="n">left</span><span class="p">)</span>
             <span class="n">left_layer</span> <span class="o">=</span> <span class="n">get_folium_tile_layer</span><span class="p">(</span>
                 <span class="n">client_left</span><span class="p">,</span>
+                <span class="n">indexes</span><span class="o">=</span><span class="n">indexes_left</span><span class="p">,</span>  <span class="c1"># Use the specified band index</span>
                 <span class="n">name</span><span class="o">=</span><span class="n">name_left</span><span class="p">,</span>
                 <span class="n">colormap</span><span class="o">=</span><span class="n">colormap_left</span><span class="p">,</span>
                 <span class="n">opacity</span><span class="o">=</span><span class="n">opacity_left</span><span class="p">,</span>
@@ -1288,6 +1293,7 @@ Map            (<span title="folium.folium.Map">Map</span>)
             <span class="n">client_right</span> <span class="o">=</span> <span class="n">TileClient</span><span class="p">(</span><span class="n">right</span><span class="p">)</span>
             <span class="n">right_layer</span> <span class="o">=</span> <span class="n">get_folium_tile_layer</span><span class="p">(</span>
                 <span class="n">client_right</span><span class="p">,</span>
+                <span class="n">indexes</span><span class="o">=</span><span class="n">indexes_right</span><span class="p">,</span>  <span class="c1"># Use the specified band index</span>
                 <span class="n">name</span><span class="o">=</span><span class="n">name_right</span><span class="p">,</span>
                 <span class="n">colormap</span><span class="o">=</span><span class="n">colormap_right</span><span class="p">,</span>
                 <span class="n">opacity</span><span class="o">=</span><span class="n">opacity_right</span><span class="p">,</span>
@@ -1844,7 +1850,7 @@ the CRS to be EPSG:4326 (WGS84).</p>
 
 
 <h3 id="biospat.foliummap.Map.add_split_map" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">add_split_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="s1">&#39;cartodbpositron&#39;</span><span class="p">,</span> <span class="n">name_left</span><span class="o">=</span><span class="s1">&#39;Left Raster&#39;</span><span class="p">,</span> <span class="n">name_right</span><span class="o">=</span><span class="s1">&#39;Right Raster&#39;</span><span class="p">,</span> <span class="n">colormap_left</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">colormap_right</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">opacity_left</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">opacity_right</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">add_split_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="s1">&#39;cartodbpositron&#39;</span><span class="p">,</span> <span class="n">name_left</span><span class="o">=</span><span class="s1">&#39;Left Raster&#39;</span><span class="p">,</span> <span class="n">name_right</span><span class="o">=</span><span class="s1">&#39;Right Raster&#39;</span><span class="p">,</span> <span class="n">colormap_left</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">colormap_right</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">opacity_left</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">opacity_right</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">indexes_left</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">indexes_right</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
 
 <a href="#biospat.foliummap.Map.add_split_map" class="headerlink" title="Permanent link">&para;</a></h3>
@@ -1913,6 +1919,18 @@ the CRS to be EPSG:4326 (WGS84).</p>
         <td><code>1.0</code></td>
       </tr>
       <tr>
+        <td><code>indexes_left</code></td>
+        <td><code>int</code></td>
+        <td><p>The band number (index) to display for the left raster. Defaults to 1.</p></td>
+        <td><code>1</code></td>
+      </tr>
+      <tr>
+        <td><code>indexes_right</code></td>
+        <td><code>int</code></td>
+        <td><p>The band number (index) to display for the right raster. Defaults to 1.</p></td>
+        <td><code>1</code></td>
+      </tr>
+      <tr>
         <td><code>**kwargs</code></td>
         <td></td>
         <td><p>Additional arguments for the tile layers.</p></td>
@@ -1947,6 +1965,8 @@ the CRS to be EPSG:4326 (WGS84).</p>
     <span class="n">colormap_right</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">opacity_left</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
     <span class="n">opacity_right</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">indexes_left</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># Default to first band (1)</span>
+    <span class="n">indexes_right</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># Default to first band (1)</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1961,6 +1981,8 @@ the CRS to be EPSG:4326 (WGS84).</p>
 <span class="sd">        colormap_right (str, optional): Colormap for the right raster. Defaults to None.</span>
 <span class="sd">        opacity_left (float, optional): Opacity of the left raster. Defaults to 1.0.</span>
 <span class="sd">        opacity_right (float, optional): Opacity of the right raster. Defaults to 1.0.</span>
+<span class="sd">        indexes_left (int, optional): The band number (index) to display for the left raster. Defaults to 1.</span>
+<span class="sd">        indexes_right (int, optional): The band number (index) to display for the right raster. Defaults to 1.</span>
 <span class="sd">        **kwargs: Additional arguments for the tile layers.</span>
 
 <span class="sd">    Returns:</span>
@@ -1972,6 +1994,7 @@ the CRS to be EPSG:4326 (WGS84).</p>
         <span class="n">client_left</span> <span class="o">=</span> <span class="n">TileClient</span><span class="p">(</span><span class="n">left</span><span class="p">)</span>
         <span class="n">left_layer</span> <span class="o">=</span> <span class="n">get_folium_tile_layer</span><span class="p">(</span>
             <span class="n">client_left</span><span class="p">,</span>
+            <span class="n">indexes</span><span class="o">=</span><span class="n">indexes_left</span><span class="p">,</span>  <span class="c1"># Use the specified band index</span>
             <span class="n">name</span><span class="o">=</span><span class="n">name_left</span><span class="p">,</span>
             <span class="n">colormap</span><span class="o">=</span><span class="n">colormap_left</span><span class="p">,</span>
             <span class="n">opacity</span><span class="o">=</span><span class="n">opacity_left</span><span class="p">,</span>
@@ -1985,6 +2008,7 @@ the CRS to be EPSG:4326 (WGS84).</p>
         <span class="n">client_right</span> <span class="o">=</span> <span class="n">TileClient</span><span class="p">(</span><span class="n">right</span><span class="p">)</span>
         <span class="n">right_layer</span> <span class="o">=</span> <span class="n">get_folium_tile_layer</span><span class="p">(</span>
             <span class="n">client_right</span><span class="p">,</span>
+            <span class="n">indexes</span><span class="o">=</span><span class="n">indexes_right</span><span class="p">,</span>  <span class="c1"># Use the specified band index</span>
             <span class="n">name</span><span class="o">=</span><span class="n">name_right</span><span class="p">,</span>
             <span class="n">colormap</span><span class="o">=</span><span class="n">colormap_right</span><span class="p">,</span>
             <span class="n">opacity</span><span class="o">=</span><span class="n">opacity_right</span><span class="p">,</span>
