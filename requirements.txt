@@ -2,6 +2,7 @@ folium
 geopandas
 ipyleaflet
 localtileserver
+matplotlib
 numpy
 pytest
 rasterio
