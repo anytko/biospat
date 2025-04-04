@@ -82,6 +82,7 @@ nav:
     - Examples:
         - examples/intro.ipynb
         - examples/mapping.ipynb
+        - examples/split_map.ipynb
         - examples/raster.ipynb
     - API Reference:
           - biospat module: biospat.md
