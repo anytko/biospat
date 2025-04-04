@@ -507,6 +507,29 @@
   
   
     <li class="md-nav__item">
+      <a href="../examples/split_map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Split map
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../examples/raster/" class="md-nav__link">
         
   
@@ -778,6 +801,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#biospat.foliummap.Map.add_split_map" class="md-nav__link">
+    <span class="md-ellipsis">
+      add_split_map()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#biospat.foliummap.Map.add_vector" class="md-nav__link">
     <span class="md-ellipsis">
       add_vector()
@@ -933,6 +965,15 @@
   <a href="#biospat.foliummap.Map.add_shp_from_url" class="md-nav__link">
     <span class="md-ellipsis">
       add_shp_from_url()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#biospat.foliummap.Map.add_split_map" class="md-nav__link">
+    <span class="md-ellipsis">
+      add_split_map()
     </span>
   </a>
   
@@ -1198,6 +1239,70 @@ Map            (<span title="folium.folium.Map">Map</span>)
     <span class="k">def</span><span class="w"> </span><span class="nf">add_layer_control</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds a layer control widget to the map.&quot;&quot;&quot;</span>
         <span class="n">folium</span><span class="o">.</span><span class="n">LayerControl</span><span class="p">()</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_split_map</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">left</span><span class="p">,</span>
+        <span class="n">right</span><span class="o">=</span><span class="s2">&quot;cartodbpositron&quot;</span><span class="p">,</span>
+        <span class="n">name_left</span><span class="o">=</span><span class="s2">&quot;Left Raster&quot;</span><span class="p">,</span>
+        <span class="n">name_right</span><span class="o">=</span><span class="s2">&quot;Right Raster&quot;</span><span class="p">,</span>
+        <span class="n">colormap_left</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">colormap_right</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">opacity_left</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">opacity_right</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a split map with one or both sides displaying a raster GeoTIFF, with independent colormaps.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            left (str or TileClient): Left map layer (Tile URL, basemap name, or GeoTIFF path).</span>
+<span class="sd">            right (str or TileClient): Right map layer (Tile URL, basemap name, or GeoTIFF path).</span>
+<span class="sd">            name_left (str, optional): Name for the left raster layer. Defaults to &quot;Left Raster&quot;.</span>
+<span class="sd">            name_right (str, optional): Name for the right raster layer. Defaults to &quot;Right Raster&quot;.</span>
+<span class="sd">            colormap_left (str, optional): Colormap for the left raster. Defaults to None.</span>
+<span class="sd">            colormap_right (str, optional): Colormap for the right raster. Defaults to None.</span>
+<span class="sd">            opacity_left (float, optional): Opacity of the left raster. Defaults to 1.0.</span>
+<span class="sd">            opacity_right (float, optional): Opacity of the right raster. Defaults to 1.0.</span>
+<span class="sd">            **kwargs: Additional arguments for the tile layers.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Convert left layer if it&#39;s a raster file/URL</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">left</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.tif&quot;</span><span class="p">):</span>
+            <span class="n">client_left</span> <span class="o">=</span> <span class="n">TileClient</span><span class="p">(</span><span class="n">left</span><span class="p">)</span>
+            <span class="n">left_layer</span> <span class="o">=</span> <span class="n">get_folium_tile_layer</span><span class="p">(</span>
+                <span class="n">client_left</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">name_left</span><span class="p">,</span>
+                <span class="n">colormap</span><span class="o">=</span><span class="n">colormap_left</span><span class="p">,</span>
+                <span class="n">opacity</span><span class="o">=</span><span class="n">opacity_left</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">left_layer</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">TileLayer</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Convert right layer if it&#39;s a raster file/URL</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">right</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.tif&quot;</span><span class="p">):</span>
+            <span class="n">client_right</span> <span class="o">=</span> <span class="n">TileClient</span><span class="p">(</span><span class="n">right</span><span class="p">)</span>
+            <span class="n">right_layer</span> <span class="o">=</span> <span class="n">get_folium_tile_layer</span><span class="p">(</span>
+                <span class="n">client_right</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">name_right</span><span class="p">,</span>
+                <span class="n">colormap</span><span class="o">=</span><span class="n">colormap_right</span><span class="p">,</span>
+                <span class="n">opacity</span><span class="o">=</span><span class="n">opacity_right</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">right_layer</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">TileLayer</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Add layers to the map</span>
+        <span class="n">left_layer</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">right_layer</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="c1"># Create split-screen effect</span>
+        <span class="n">split_map</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">SideBySideLayers</span><span class="p">(</span><span class="n">left_layer</span><span class="p">,</span> <span class="n">right_layer</span><span class="p">)</span>
+        <span class="n">split_map</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </code></pre></div>
         </details>
 
@@ -1726,6 +1831,175 @@ the CRS to be EPSG:4326 (WGS84).</p>
 
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error loading shapefile: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="biospat.foliummap.Map.add_split_map" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">add_split_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="s1">&#39;cartodbpositron&#39;</span><span class="p">,</span> <span class="n">name_left</span><span class="o">=</span><span class="s1">&#39;Left Raster&#39;</span><span class="p">,</span> <span class="n">name_right</span><span class="o">=</span><span class="s1">&#39;Right Raster&#39;</span><span class="p">,</span> <span class="n">colormap_left</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">colormap_right</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">opacity_left</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">opacity_right</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+
+<a href="#biospat.foliummap.Map.add_split_map" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Adds a split map with one or both sides displaying a raster GeoTIFF, with independent colormaps.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>left</code></td>
+        <td><code>str or TileClient</code></td>
+        <td><p>Left map layer (Tile URL, basemap name, or GeoTIFF path).</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>right</code></td>
+        <td><code>str or TileClient</code></td>
+        <td><p>Right map layer (Tile URL, basemap name, or GeoTIFF path).</p></td>
+        <td><code>&#39;cartodbpositron&#39;</code></td>
+      </tr>
+      <tr>
+        <td><code>name_left</code></td>
+        <td><code>str</code></td>
+        <td><p>Name for the left raster layer. Defaults to "Left Raster".</p></td>
+        <td><code>&#39;Left Raster&#39;</code></td>
+      </tr>
+      <tr>
+        <td><code>name_right</code></td>
+        <td><code>str</code></td>
+        <td><p>Name for the right raster layer. Defaults to "Right Raster".</p></td>
+        <td><code>&#39;Right Raster&#39;</code></td>
+      </tr>
+      <tr>
+        <td><code>colormap_left</code></td>
+        <td><code>str</code></td>
+        <td><p>Colormap for the left raster. Defaults to None.</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>colormap_right</code></td>
+        <td><code>str</code></td>
+        <td><p>Colormap for the right raster. Defaults to None.</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>opacity_left</code></td>
+        <td><code>float</code></td>
+        <td><p>Opacity of the left raster. Defaults to 1.0.</p></td>
+        <td><code>1.0</code></td>
+      </tr>
+      <tr>
+        <td><code>opacity_right</code></td>
+        <td><code>float</code></td>
+        <td><p>Opacity of the right raster. Defaults to 1.0.</p></td>
+        <td><code>1.0</code></td>
+      </tr>
+      <tr>
+        <td><code>**kwargs</code></td>
+        <td></td>
+        <td><p>Additional arguments for the tile layers.</p></td>
+        <td><code>{}</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td></td>
+      <td><p>None</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>biospat/foliummap.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_split_map</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">left</span><span class="p">,</span>
+    <span class="n">right</span><span class="o">=</span><span class="s2">&quot;cartodbpositron&quot;</span><span class="p">,</span>
+    <span class="n">name_left</span><span class="o">=</span><span class="s2">&quot;Left Raster&quot;</span><span class="p">,</span>
+    <span class="n">name_right</span><span class="o">=</span><span class="s2">&quot;Right Raster&quot;</span><span class="p">,</span>
+    <span class="n">colormap_left</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">colormap_right</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">opacity_left</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">opacity_right</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Adds a split map with one or both sides displaying a raster GeoTIFF, with independent colormaps.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        left (str or TileClient): Left map layer (Tile URL, basemap name, or GeoTIFF path).</span>
+<span class="sd">        right (str or TileClient): Right map layer (Tile URL, basemap name, or GeoTIFF path).</span>
+<span class="sd">        name_left (str, optional): Name for the left raster layer. Defaults to &quot;Left Raster&quot;.</span>
+<span class="sd">        name_right (str, optional): Name for the right raster layer. Defaults to &quot;Right Raster&quot;.</span>
+<span class="sd">        colormap_left (str, optional): Colormap for the left raster. Defaults to None.</span>
+<span class="sd">        colormap_right (str, optional): Colormap for the right raster. Defaults to None.</span>
+<span class="sd">        opacity_left (float, optional): Opacity of the left raster. Defaults to 1.0.</span>
+<span class="sd">        opacity_right (float, optional): Opacity of the right raster. Defaults to 1.0.</span>
+<span class="sd">        **kwargs: Additional arguments for the tile layers.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Convert left layer if it&#39;s a raster file/URL</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">left</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.tif&quot;</span><span class="p">):</span>
+        <span class="n">client_left</span> <span class="o">=</span> <span class="n">TileClient</span><span class="p">(</span><span class="n">left</span><span class="p">)</span>
+        <span class="n">left_layer</span> <span class="o">=</span> <span class="n">get_folium_tile_layer</span><span class="p">(</span>
+            <span class="n">client_left</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name_left</span><span class="p">,</span>
+            <span class="n">colormap</span><span class="o">=</span><span class="n">colormap_left</span><span class="p">,</span>
+            <span class="n">opacity</span><span class="o">=</span><span class="n">opacity_left</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">left_layer</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">TileLayer</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c1"># Convert right layer if it&#39;s a raster file/URL</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">right</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.tif&quot;</span><span class="p">):</span>
+        <span class="n">client_right</span> <span class="o">=</span> <span class="n">TileClient</span><span class="p">(</span><span class="n">right</span><span class="p">)</span>
+        <span class="n">right_layer</span> <span class="o">=</span> <span class="n">get_folium_tile_layer</span><span class="p">(</span>
+            <span class="n">client_right</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name_right</span><span class="p">,</span>
+            <span class="n">colormap</span><span class="o">=</span><span class="n">colormap_right</span><span class="p">,</span>
+            <span class="n">opacity</span><span class="o">=</span><span class="n">opacity_right</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">right_layer</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">TileLayer</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c1"># Add layers to the map</span>
+    <span class="n">left_layer</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="n">right_layer</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="c1"># Create split-screen effect</span>
+    <span class="n">split_map</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">SideBySideLayers</span><span class="p">(</span><span class="n">left_layer</span><span class="p">,</span> <span class="n">right_layer</span><span class="p">)</span>
+    <span class="n">split_map</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
