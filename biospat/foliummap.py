@@ -206,6 +206,8 @@ class Map(folium.Map):
         colormap_right=None,
         opacity_left=1.0,
         opacity_right=1.0,
+        indexes_left=1,  # Default to first band (1)
+        indexes_right=1,  # Default to first band (1)
         **kwargs,
     ):
         """
@@ -220,6 +222,8 @@ class Map(folium.Map):
             colormap_right (str, optional): Colormap for the right raster. Defaults to None.
             opacity_left (float, optional): Opacity of the left raster. Defaults to 1.0.
             opacity_right (float, optional): Opacity of the right raster. Defaults to 1.0.
+            indexes_left (int, optional): The band number (index) to display for the left raster. Defaults to 1.
+            indexes_right (int, optional): The band number (index) to display for the right raster. Defaults to 1.
             **kwargs: Additional arguments for the tile layers.
 
         Returns:
@@ -231,6 +235,7 @@ class Map(folium.Map):
             client_left = TileClient(left)
             left_layer = get_folium_tile_layer(
                 client_left,
+                indexes=indexes_left,  # Use the specified band index
                 name=name_left,
                 colormap=colormap_left,
                 opacity=opacity_left,
@@ -244,6 +249,7 @@ class Map(folium.Map):
             client_right = TileClient(right)
             right_layer = get_folium_tile_layer(
                 client_right,
+                indexes=indexes_right,  # Use the specified band index
                 name=name_right,
                 colormap=colormap_right,
                 opacity=opacity_right,
