@@ -268,28 +268,6 @@ class Map(ipyleaflet.Map):
         )
         self.add(layer)
 
-    def add_vector(self, data, **kwargs):
-        """Adds vector data to the map.
-
-        Args:
-            data (str, geopandas.GeoDataFrame, or dict): The vector data. Can be a file path, GeoDataFrame, or GeoJSON dictionary.
-            **kwargs: Additional keyword arguments for the GeoJSON layer.
-
-        Raises:
-            ValueError: If the data type is invalid.
-        """
-        import geopandas as gpd
-
-        if isinstance(data, str):
-            gdf = gpd.read_file(data)
-            self.add_gdf(gdf, **kwargs)
-        elif isinstance(data, gpd.GeoDataFrame):
-            self.add_gdf(data, **kwargs)
-        elif isinstance(data, dict):
-            self.add_geojson(data, **kwargs)
-        else:
-            raise ValueError("Invalid data type")
-
     def add_markers(self, coordinates, **kwargs):
         """Adds one or more markers to the map at the specified coordinates.
 
