@@ -20,4 +20,4 @@ The following methods handle raster-related functionality in the `Map` class.
 
 ## Add Markers
 
-::: biospat.mapping.Map.add_markers()
+::: biospat.mapping.Map.add_markers
