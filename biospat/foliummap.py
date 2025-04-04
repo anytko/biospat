@@ -7,6 +7,7 @@ import os
 import tempfile
 import geopandas as gpd
 import shutil
+from localtileserver import get_folium_tile_layer, TileClient
 
 
 class Map(folium.Map):
@@ -194,3 +195,67 @@ class Map(folium.Map):
     def add_layer_control(self):
         """Adds a layer control widget to the map."""
         folium.LayerControl().add_to(self)
+
+    def add_split_map(
+        self,
+        left,
+        right="cartodbpositron",
+        name_left="Left Raster",
+        name_right="Right Raster",
+        colormap_left=None,
+        colormap_right=None,
+        opacity_left=1.0,
+        opacity_right=1.0,
+        **kwargs,
+    ):
+        """
+        Adds a split map with one or both sides displaying a raster GeoTIFF, with independent colormaps.
+
+        Args:
+            left (str or TileClient): Left map layer (Tile URL, basemap name, or GeoTIFF path).
+            right (str or TileClient): Right map layer (Tile URL, basemap name, or GeoTIFF path).
+            name_left (str, optional): Name for the left raster layer. Defaults to "Left Raster".
+            name_right (str, optional): Name for the right raster layer. Defaults to "Right Raster".
+            colormap_left (str, optional): Colormap for the left raster. Defaults to None.
+            colormap_right (str, optional): Colormap for the right raster. Defaults to None.
+            opacity_left (float, optional): Opacity of the left raster. Defaults to 1.0.
+            opacity_right (float, optional): Opacity of the right raster. Defaults to 1.0.
+            **kwargs: Additional arguments for the tile layers.
+
+        Returns:
+            None
+        """
+
+        # Convert left layer if it's a raster file/URL
+        if isinstance(left, str) and left.endswith(".tif"):
+            client_left = TileClient(left)
+            left_layer = get_folium_tile_layer(
+                client_left,
+                name=name_left,
+                colormap=colormap_left,
+                opacity=opacity_left,
+                **kwargs,
+            )
+        else:
+            left_layer = folium.TileLayer(left, **kwargs)
+
+        # Convert right layer if it's a raster file/URL
+        if isinstance(right, str) and right.endswith(".tif"):
+            client_right = TileClient(right)
+            right_layer = get_folium_tile_layer(
+                client_right,
+                name=name_right,
+                colormap=colormap_right,
+                opacity=opacity_right,
+                **kwargs,
+            )
+        else:
+            right_layer = folium.TileLayer(right, **kwargs)
+
+        # Add layers to the map
+        left_layer.add_to(self)
+        right_layer.add_to(self)
+
+        # Create split-screen effect
+        split_map = folium.plugins.SideBySideLayers(left_layer, right_layer)
+        split_map.add_to(self)
