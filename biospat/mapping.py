@@ -6,6 +6,9 @@ import geopandas as gpd
 import tempfile
 import requests
 import shutil
+import localtileserver
+from ipyleaflet import Marker, Popup
+import rasterio
 
 
 class Map(ipyleaflet.Map):
@@ -191,3 +194,92 @@ class Map(ipyleaflet.Map):
         """Adds a layer control widget to the map."""
         control = ipyleaflet.LayersControl(position="topright")
         self.add_control(control)
+
+    def add_raster(self, url, name=None, colormap=None, opacity=1.0, **kwargs):
+        """Adds an raster to the map.
+
+        Args:
+            url (str): The url or file path to the raster.
+            name (str, optional): The name for the raster layer. Defaults to None.
+            colormap (str, optional): The colormap to use for the raster. Defaults to None.
+            opacity (float, optional): The opacity of the raster layer. Defaults to 1.0.
+            **kwargs: Additional keyword arguments for the raster layer.
+        """
+
+        from localtileserver import TileClient, get_leaflet_tile_layer
+
+        client = TileClient(url)
+        tile_layer = get_leaflet_tile_layer(
+            client, name=name, colormap=colormap, opacity=opacity, **kwargs
+        )
+
+        self.add(tile_layer)
+        self.center = client.center()
+        self.zoom = client.default_zoom
+
+    def add_image(self, url, bounds=None, opacity=1.0, **kwargs):
+        """Adds an image to the map.
+
+        Args:
+            url (str): The URL of the image to overlay on the map.
+            bounds (list): The bounds for the image.
+            opacity (float, optional): The opacity of the image overlay. Defaults to 1.0.
+            **kwargs: Additional keyword arguments for the ipyleaflet.ImageOverlay layer.
+        """
+
+        if bounds is None or not bounds:
+            raise ValueError("Bounds must be specified for the image overlay.")
+        overlay = ipyleaflet.ImageOverlay(
+            url=url, bounds=bounds, opacity=opacity, **kwargs
+        )
+        self.add(overlay)
+
+    def add_video(self, url, bounds=None, opacity=1.0, **kwargs):
+        """Adds a video to the map.
+
+        Args:
+            url (str): The file path to the video.
+            bounds (list, required): The bounds for the video.
+            opacity (float, optional): The opacity of the video overlay. Defaults to 1.0.
+            **kwargs: Additional keyword arguments for the ipyleaflet.VideoOverlay layer.
+        """
+
+        if bounds is None or not bounds:
+            raise ValueError("Bounds must be specified for the video overlay.")
+        overlay = ipyleaflet.VideoOverlay(
+            url=url, bounds=bounds, opacity=opacity, **kwargs
+        )
+        self.add(overlay)
+
+    def add_wms_layer(
+        self, url, layers, format="image/png", transparent=True, **kwargs
+    ):
+        """Adds a WMS layer to the map.
+
+        Args:
+            url (str): The WMS service URL.
+            layers (str): The layers to display.
+            format (str, optional): The format of the image. Defaults to "image/png".
+            transparent (bool, optional): Whether to use transparency. Defaults to True.
+            **kwargs: Additional keyword arguments for the ipyleaflet.WMSLayer layer.
+        """
+        layer = ipyleaflet.WMSLayer(
+            url=url, layers=layers, format=format, transparent=transparent, **kwargs
+        )
+        self.add(layer)
+
+    def add_markers(self, coordinates, **kwargs):
+        """Adds one or more markers to the map at the specified coordinates.
+
+        Args:
+            coordinates (list of tuples): List of (latitude, longitude) coordinates for markers.
+            popup (str, optional): The popup text to display when the marker is clicked. Defaults to None.
+            **kwargs: Additional keyword arguments for the Marker object.
+
+        Returns:
+            None
+        """
+        for coord in coordinates:
+            marker = Marker(location=coord, **kwargs)
+
+            self.add(marker)
