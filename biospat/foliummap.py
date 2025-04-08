@@ -237,7 +237,7 @@ class Map(folium.Map):
                 **kwargs,
             )
         else:
-            left_layer = folium.TileLayer(left, **kwargs)
+            left_layer = folium.TileLayer(left, overlay=True, **kwargs)
 
         # Convert right layer if it's a raster file/URL
         if isinstance(right, str) and right.endswith(".tif"):
@@ -250,7 +250,7 @@ class Map(folium.Map):
                 **kwargs,
             )
         else:
-            right_layer = folium.TileLayer(right, **kwargs)
+            right_layer = folium.TileLayer(right, overlay=True, **kwargs)
 
         # Add layers to the map
         left_layer.add_to(self)
