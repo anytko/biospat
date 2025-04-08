@@ -868,29 +868,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../raster/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    raster module
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1366,19 +1343,25 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
         <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">overlay</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">add_wms_layer</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">layers</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;image/png&quot;</span><span class="p">,</span> <span class="n">transparent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">layers</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;image/png&quot;</span><span class="p">,</span> <span class="n">transparent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds a WMS layer to the map.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            url (str): The WMS service URL.</span>
 <span class="sd">            layers (str): The layers to display.</span>
+<span class="sd">            name (str): The name for the WMS layer.</span>
 <span class="sd">            format (str, optional): The format of the image. Defaults to &quot;image/png&quot;.</span>
 <span class="sd">            transparent (bool, optional): Whether to use transparency. Defaults to True.</span>
 <span class="sd">            **kwargs: Additional keyword arguments for the ipyleaflet.WMSLayer layer.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">layer</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">WMSLayer</span><span class="p">(</span>
-            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">layers</span><span class="o">=</span><span class="n">layers</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="nb">format</span><span class="p">,</span> <span class="n">transparent</span><span class="o">=</span><span class="n">transparent</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+            <span class="n">layers</span><span class="o">=</span><span class="n">layers</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="nb">format</span><span class="o">=</span><span class="nb">format</span><span class="p">,</span>
+            <span class="n">transparent</span><span class="o">=</span><span class="n">transparent</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
 
@@ -2326,7 +2309,7 @@ the CRS to be EPSG:4326 (WGS84).</p>
 
 
 <h3 id="biospat.mapping.Map.add_wms_layer" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">add_wms_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">layers</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;image/png&#39;</span><span class="p">,</span> <span class="n">transparent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">add_wms_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">layers</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;image/png&#39;</span><span class="p">,</span> <span class="n">transparent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
 
 <a href="#biospat.mapping.Map.add_wms_layer" class="headerlink" title="Permanent link">&para;</a></h3>
@@ -2359,6 +2342,12 @@ the CRS to be EPSG:4326 (WGS84).</p>
         <td><em>required</em></td>
       </tr>
       <tr>
+        <td><code>name</code></td>
+        <td><code>str</code></td>
+        <td><p>The name for the WMS layer.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
         <td><code>format</code></td>
         <td><code>str</code></td>
         <td><p>The format of the image. Defaults to "image/png".</p></td>
@@ -2381,19 +2370,25 @@ the CRS to be EPSG:4326 (WGS84).</p>
         <details class="quote">
           <summary>Source code in <code>biospat/mapping.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_wms_layer</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">layers</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;image/png&quot;</span><span class="p">,</span> <span class="n">transparent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">layers</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;image/png&quot;</span><span class="p">,</span> <span class="n">transparent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds a WMS layer to the map.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        url (str): The WMS service URL.</span>
 <span class="sd">        layers (str): The layers to display.</span>
+<span class="sd">        name (str): The name for the WMS layer.</span>
 <span class="sd">        format (str, optional): The format of the image. Defaults to &quot;image/png&quot;.</span>
 <span class="sd">        transparent (bool, optional): Whether to use transparency. Defaults to True.</span>
 <span class="sd">        **kwargs: Additional keyword arguments for the ipyleaflet.WMSLayer layer.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">layer</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">WMSLayer</span><span class="p">(</span>
-        <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">layers</span><span class="o">=</span><span class="n">layers</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="nb">format</span><span class="p">,</span> <span class="n">transparent</span><span class="o">=</span><span class="n">transparent</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+        <span class="n">layers</span><span class="o">=</span><span class="n">layers</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+        <span class="nb">format</span><span class="o">=</span><span class="nb">format</span><span class="p">,</span>
+        <span class="n">transparent</span><span class="o">=</span><span class="n">transparent</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
 </code></pre></div>
