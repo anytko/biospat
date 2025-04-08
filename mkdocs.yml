@@ -89,4 +89,3 @@ nav:
           - common module: common.md
           - ipyleaflet mapping module: mapping.md
           - folium mapping module: foliummap.md
-          - raster module: raster.md
