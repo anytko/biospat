@@ -40,11 +40,11 @@ class Map(ipyleaflet.Map):
         self.add(layer)
 
     def add_basemap_gui(self, options=None, position="topright"):
-        """Adds a graphical user interface (GUI) for selecting basemaps.
+        """Adds a graphical user interface (GUI) for dynamically changing basemaps.
 
-        Args:
+        Params:
             options (list, optional): A list of basemap options to display in the dropdown.
-                Defaults to ["OpenStreetMap.Mapnik", "OpenTopoMap", "Esri.WorldImagery", "CartoDB.DarkMatter"].
+                Defaults to ["OpenStreetMap.Mapnik", "OpenTopoMap", "Esri.WorldImagery", "Esri.WorldTerrain", "Esri.WorldStreetMap", "CartoDB.DarkMatter", "CartoDB.Positron"].
             position (str, optional): The position of the widget on the map. Defaults to "topright".
 
         Behavior:
@@ -56,6 +56,9 @@ class Map(ipyleaflet.Map):
             - `on_toggle_change`: Toggles the visibility of the dropdown and close button.
             - `on_button_click`: Closes and removes the widget from the map.
             - `on_dropdown_change`: Updates the map's basemap when a new option is selected.
+
+        Returns:
+            None
         """
         if options is None:
             options = [
