@@ -62,7 +62,10 @@ class Map(ipyleaflet.Map):
                 "OpenStreetMap.Mapnik",
                 "OpenTopoMap",
                 "Esri.WorldImagery",
+                "Esri.WorldTerrain",
+                "Esri.WorldStreetMap",
                 "CartoDB.DarkMatter",
+                "CartoDB.Positron",
             ]
 
         toggle = widgets.ToggleButton(
