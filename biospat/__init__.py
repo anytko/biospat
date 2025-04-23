@@ -6,3 +6,6 @@ __version__ = "0.0.2"
 
 from .mapping import *
 from .foliummap import *
+from .biospat import *
+from .references_data import *
+from .stand_alone_functions import *
