@@ -10,6 +10,6 @@ pygbif
 pytest
 rasterio
 requests
+scikit-learn
 scipy
 shapely
-sklearn
