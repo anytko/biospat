@@ -79,7 +79,7 @@ class Map(ipyleaflet.Map):
         All operations in EPSG:3395 for consistency.
         """
 
-        lakes_gdf = gpd.read_file("../../lakes_na.gpkg")
+        lakes_gdf = gpd.read_file("GPKG:../../lakes_na.gpkg")
         # Ensure valid geometries
         polygons_gdf = polygons_gdf[polygons_gdf.geometry.is_valid]
         lakes_gdf = lakes_gdf[lakes_gdf.geometry.is_valid]
