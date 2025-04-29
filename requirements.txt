@@ -1,10 +1,15 @@
 folium
 geopandas
+geopy
 ipyleaflet
 ipywidgets
 localtileserver
 matplotlib
 numpy
+pygbif
 pytest
 rasterio
 requests
+scipy
+shapely
+sklearn
