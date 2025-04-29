@@ -196,7 +196,11 @@ def classify_range_edges(gdf, largest_polygons):
     return gdf
 
 
-def update_polygon_categories(largest_polygons, classified_polygons, island_states_gdf):
+def update_polygon_categories(largest_polygons, classified_polygons):
+
+    island_states_url = "https://raw.githubusercontent.com/anytko/biospat_large_files/main/island_states.geojson"
+
+    island_states_gdf = gpd.read_file(island_states_url)
 
     largest_polygons_gdf = gpd.GeoDataFrame(largest_polygons)
     classified_polygons_gdf = gpd.GeoDataFrame(classified_polygons)
