@@ -30,7 +30,7 @@ from scipy.spatial.distance import cdist
 from ipyleaflet import GeoData
 
 
-class Map(ipyleaflet.Map):
+class HistoricalMap(ipyleaflet.Map):
     def __init__(self, center=[20, 0], zoom=2, height="600px", **kwargs):
 
         super().__init__(center=center, zoom=zoom, **kwargs)
@@ -387,7 +387,7 @@ class Map(ipyleaflet.Map):
         self.add_control(control)
 
 
-class GBIF_Map(Map):
+class GBIF_Map(HistoricalMap):
     def __init__(self, center=[20, 0], zoom=2, height="600px", **kwargs):
         super().__init__(center=center, zoom=zoom, **kwargs)
         self.layout.height = height
