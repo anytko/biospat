@@ -79,7 +79,10 @@ class Map(ipyleaflet.Map):
         All operations in EPSG:3395 for consistency.
         """
 
-        lakes_gdf = gpd.read_file("GPKG:../../lakes_na.gpkg")
+        lakes_url = "https://raw.githubusercontent.com/anytko/biospat_large_files/main/lakes_na.geojson"
+
+        lakes_gdf = gpd.read_file(lakes_url)
+
         # Ensure valid geometries
         polygons_gdf = polygons_gdf[polygons_gdf.geometry.is_valid]
         lakes_gdf = lakes_gdf[lakes_gdf.geometry.is_valid]

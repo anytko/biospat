@@ -263,7 +263,10 @@ def update_polygon_categories(largest_polygons, classified_polygons, island_stat
 
 def assign_polygon_clusters(polygon_gdf):
 
-    island_states_gdf = gpd.read_file("GPKG:../../island_states.gpkg")
+    island_states_url = "https://raw.githubusercontent.com/anytko/biospat_large_files/main/island_states.geojson"
+
+    # Read the GeoJSON from the URL
+    island_states_gdf = gpd.read_file(island_states_url)
 
     range_test = polygon_gdf.copy()
 
@@ -668,7 +671,11 @@ def clip_polygons_to_continent(input_gdf):
     """
     # Load continents GeoJSON
 
-    continents_gdf = gpd.read_file("GPKG:../../land.gpkg")
+    land_url = (
+        "https://raw.githubusercontent.com/anytko/biospat_large_files/main/land.geojson"
+    )
+
+    continents_gdf = gpd.read_file(land_url)
 
     # Ensure valid geometries only
     input_gdf = input_gdf[input_gdf["geometry"].is_valid]
@@ -711,7 +718,10 @@ def clip_polygons_to_continent(input_gdf):
 
 
 def assign_polygon_clusters_gbif(polygon_gdf):
-    island_states_gdf = gpd.read_file("GPKG:../../island_states.gpkg")
+
+    island_states_url = "https://raw.githubusercontent.com/anytko/biospat_large_files/main/island_states.geojson"
+
+    island_states_gdf = gpd.read_file(island_states_url)
 
     # Simplify geometries to avoid precision issues (optional)
     polygon_gdf["geometry"] = polygon_gdf.geometry.simplify(
@@ -920,7 +930,10 @@ def update_polygon_categories_gbif(largest_polygons_gdf, classified_polygons_gdf
         GeoDataFrame: classified_polygons_gdf with updated 'category' values for overlapping polygons.
     """
 
-    island_states_gdf = gpd.read_file("GPKG:../../island_states.gpkg")
+    island_states_url = "https://raw.githubusercontent.com/anytko/biospat_large_files/main/island_states.geojson"
+
+    island_states_gdf = gpd.read_file(island_states_url)
+
     # Ensure all CRS match
     crs = classified_polygons_gdf.crs or "EPSG:3395"
     island_states_gdf = island_states_gdf.to_crs(crs)
@@ -1054,7 +1067,10 @@ def remove_lakes_and_plot_gbif(polygons_gdf):
     - Updated GeoDataFrame with the lakes removed.
     """
     # Load lakes GeoDataFrame
-    lakes_gdf = gpd.read_file("GPKG:../../lakes_na.gpkg")
+
+    lakes_url = "https://raw.githubusercontent.com/anytko/biospat_large_files/main/lakes_na.geojson"
+
+    lakes_gdf = gpd.read_file(lakes_url)
 
     # Ensure geometries are valid
     polygons_gdf = polygons_gdf[polygons_gdf.geometry.is_valid]
